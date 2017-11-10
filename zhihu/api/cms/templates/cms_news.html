@@ -1,0 +1,15 @@
+{% extends "cms_base.html" %}
+{% load static %}
+
+
+{% block titleblock %}{% endblock titleblock %}
+
+{% block bodyblock %}
+    {{ block.super }}
+    <div style="height: 200px;background:white; padding:100px;">
+        新闻：<br>
+        {% for i,j in news %}
+            <a class="news" href={{ j }}>{{ i }}</a><br>
+        {% endfor %}
+	</div>
+{% endblock bodyblock %}

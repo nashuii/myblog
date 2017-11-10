@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>帐号注册</title>
+    <link rel="stylesheet" href="{% static 'css/cms_login.css' %}">
+    <script src='{% static "js/cms_login.js" %}'></script>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+  		<form class="form-register" role="form" method='POST'>
+  			{%csrf_token%}
+    		<h2 class="form-register-heading">注册</h2>
+    		<input type="text" class="form-control" placeholder="用户名" name="username" required autofocus>
+    		<input type="password" class="form-control" placeholder="密码" name="password" required>
+    		<input type="email" class="form-control" placeholder="邮箱" name="email" required>
+{#            <div class="input-group">#}
+{#                <input type="text" class="form-control" required placeholder="验证码" name="captcha">#}
+{#                <span class="input-group-addon">#}
+{#                    <img src="{% url 'common_captcha' %}" alt="点击刷新验证码" class="captcha-img">#}
+{#                </span>#}
+{#            </div>#}
+    		<p class="text-danger error-p">{{error}}</p>
+    		<button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+  		</form>
+	</div>
+</body>
+</html>
