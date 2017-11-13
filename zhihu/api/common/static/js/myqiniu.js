@@ -12,7 +12,7 @@
 
 var myqiniu = {
 	'setUp': function(args) {
-		var domain = 'http://owsf2kjo0.bkt.clouddn.com/';
+		var domain = 'http://ozcqx9dxy.bkt.clouddn.com/';
 		var params = {
 			runtimes: 'html5,flash,html4', //上传模式，依次退化
 			max_file_size: '500mb', //文件最大允许的尺寸

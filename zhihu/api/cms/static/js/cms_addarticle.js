@@ -106,79 +106,79 @@ $(function() {
 		});
 	});
 });
-//// 上传图片执行函数
-//$(function() {
-//	//把一些固定的参数封装进函数,把那些需要更改的参数不进行封装
-//	var uploader = myqiniu.setUp({
-//		'browse_button':'thumbnail-btn',
-//		'success':function(up,file,info) {
-//				// 把图片的URL设置input里面
-//			$('#thumbnail-input').val(file.name);
-//		},
-//		'error':function(up,err,errTip) {
-//			console.log(err);
-//		}
-//	});
-//});
-//
-//
-//// 添加文章的执行函数
-//$(function() {
-//	$('#submit-article-btn').click(function() {
-//		// 获取元素
-//		var titleElement = $('#title-input');
-//		var categoryElement = $('#category-select');
-//		var descElement = $('#desc-input');
-//		var thumbnailElement = $('#thumbnail-input');
-//		var tagElements = $('.tag-checkbox');
-//
-//		// 获取数据
-//		var title = titleElement.val();
-//		var category = categoryElement.val();
-//		var desc = descElement.val();
-//		var thumbnail = thumbnailElement.val();
-//		var tags = [];
-//		tagElements.each(function() {
-//			if($(this).is(':checked')){
-//				var tagId = $(this).val();
-//				tags.push(tagId);
-//			}
-//		});
-//		var content_html = editor.getValue();
-//		var data = {
-//			'title': title,
-//			'category': category,
-//			'desc': desc,
-//			'thumbnail': thumbnail,
-//			'tags': tags,
-//			'content_html': content_html
-//		};
-//
-//		// 通过ajax发布到服务器
-//		myajax.post({
-//			'url': '/cms/add_article/',
-//			'data': data,
-//			'success':function(result) {
-//				if (result['code'] == 200) {
-//					$('#submit-success-modal').modal('show');
-//					titleElement.val('');
-//					descElement.val('');
-//					thumbnailElement.val('');
-//					tagElements.removeAttr('checked');
-//					editor.setValue('');
-//				}else{
-//					alert(result['message']);
-//				}
-//			},
-//			'error': function(err) {
-//				console.log(err);
-//			}
-//		});
-//	});
-//	$('#back-home-btn').click(function() {
-//		window.location = '/cms/';
-//	});
-//	$('#write-again-btn').click(function() {
-//		$('#submit-success-modal').modal('hide');
-//	});
-//});
+// 上传图片执行函数
+$(function() {
+	//把一些固定的参数封装进函数,把那些需要更改的参数不进行封装
+	var uploader = myqiniu.setUp({
+		'browse_button':'thumbnail-btn',
+		'success':function(up,file,info) {
+				// 把图片的URL设置input里面
+			$('#thumbnail-input').val(file.name);
+		},
+		'error':function(up,err,errTip) {
+			console.log(err);
+		}
+	});
+});
+
+
+// 添加文章的执行函数
+$(function() {
+	$('#submit-article-btn').click(function() {
+		// 获取元素
+		var titleElement = $('#title-input');
+		var categoryElement = $('#category-select');
+		var descElement = $('#desc-input');
+		var thumbnailElement = $('#thumbnail-input');
+		var tagElements = $('.tag-checkbox');
+
+		// 获取数据
+		var title = titleElement.val();
+		var category = categoryElement.val();
+		var desc = descElement.val();
+		var thumbnail = thumbnailElement.val();
+		var tags = [];
+		tagElements.each(function() {
+			if($(this).is(':checked')){
+				var tagId = $(this).val();
+				tags.push(tagId);
+			}
+		});
+		var content_html = editor.getValue();
+		var data = {
+			'title': title,
+			'category': category,
+			'desc': desc,
+			'thumbnail': thumbnail,
+			'tags': tags,
+			'content_html': content_html
+		};
+
+		// 通过ajax发布到服务器
+		myajax.post({
+			'url': '/cms/add_article/',
+			'data': data,
+			'success':function(result) {
+				if (result['code'] == 200) {
+					$('#submit-success-modal').modal('show');
+					titleElement.val('');
+					descElement.val('');
+					thumbnailElement.val('');
+					tagElements.removeAttr('checked');
+					editor.setValue('');
+				}else{
+					alert(result['message']);
+				}
+			},
+			'error': function(err) {
+				console.log(err);
+			}
+		});
+	});
+	$('#back-home-btn').click(function() {
+		window.location = '/cms/index/';
+	});
+	$('#write-again-btn').click(function() {
+		$('#submit-success-modal').modal('hide');
+	});
+});
