@@ -40,7 +40,14 @@ $(function(){
                     option.html(data['name']);
                     select.append(option);
                     select.children().last().attr('selected','selected').siblings().remove('selected');
-                }else{
+                }else if(result['code'] ==201){
+					var data = result['data'];
+					var select = $('#category-select');
+					dialog.modal('hide');
+					select.val(data['id']);
+					//select.children().siblings().remove('selected');
+				}
+				else{
 
                 }
             },

@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^settings/$', views.cms_settings,name='cms_settings'),
     url(r'^news/$', views.cms_news,name='cms_news'),
     url(r'^add_category/$', views.cms_addcategory,name='cms_addcategory'),
+    url(r'^add_tag/$', views.cms_addtag,name='cms_addtag'),
 ]

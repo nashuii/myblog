@@ -5,9 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
 from django.shortcuts import render,redirect,reverse
-from api.cms.forms import LoginForm,Register,AddCategoryForm
+from api.cms.forms import LoginForm,Register,AddCategoryForm,AddtagForm
 from api.cms.spider import News
-from article.models import CategoryModel
+from article.models import CategoryModel,TagModel
 from utils import myjson
 
 @login_required
@@ -63,8 +63,9 @@ def cms_logout(request):
 @login_required
 def cms_add_article(request):
     categorys = CategoryModel.objects.all()
+    tags = TagModel.objects.all()
     # print(categorys)
-    return render(request,'cms_add_article.html',{'categorys':categorys})
+    return render(request,'cms_add_article.html',{'categorys':categorys,'tags':tags})
 
 def cms_settings(request):
     return HttpResponse('个人设置')
@@ -86,6 +87,21 @@ def cms_addcategory(request):
             categoryModel.save()
             return myjson.json_result(data={'id':categoryModel.id,'name':categoryModel.name})
         else:
-            return myjson.json_params_error(message='不能创建同名的分类！')
+            return myjson.json_result(code=201,data={'id':resultcategory.id,'name':resultcategory.name})
     else:
         return myjson.json_params_error(messgae='表单验证失败')
+
+
+def cms_addtag(request):
+    form = AddtagForm(request.POST)
+    if form.is_valid():
+        tagname = form.cleaned_data.get('tagname',None)
+        resulttag = TagModel.objects.filter(name=tagname).first()
+        if not resulttag:
+            tagModel = TagModel(name=tagname)
+            tagModel.save()
+            return myjson.json_result(data={'id':tagModel.id,'name':tagModel.name})
+        else:
+            return myjson.json_params_error(message='不能创建同名的标签！')
+    else:
+        return myjson.json_params_error(message='表单验证失败')
