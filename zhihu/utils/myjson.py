@@ -13,6 +13,10 @@ HttpCode = namedtuple('HttpCode',['ok',"paramserror",'unauth','methoderror'])
 httpcode = HttpCode(ok=200, paramserror=400, unauth=401, methoderror=405)
 
 def json_result(code=httpcode.ok, message='', data={}, kwargs={}):
+    """
+
+    :rtype: object
+    """
     json = {'code': code, 'message': message, 'data':data}
     if kwargs.keys():
         for k,v in kwargs.items():

@@ -39,6 +39,15 @@
                 <li><a href="{% url 'cms_news' %}">看新闻</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
+                <li>
+                <div class="col-md-9 col-sm-9" >
+						{% if not cmsuser_avatar %}
+							<img src="{% static 'images/default_avatar.jpg' %}" alt="" id='base_pickfiles'>
+						{% else %}
+							<img src="{{cmsuser_avatar}}" alt=""  id='base_pickfiles'>
+						{% endif %}
+                </div>
+                </li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle='dropdown'>{{user.username}}<span class="caret"></span></a>
 					<ul class="dropdown-menu" role='menu'>

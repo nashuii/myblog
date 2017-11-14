@@ -13,4 +13,6 @@ urlpatterns = [
     url(r'^add_category/$', views.cms_addcategory,name='cms_addcategory'),
     url(r'^add_tag/$', views.cms_addtag,name='cms_addtag'),
     url(r'^get_token/$', views.cms_get_token,name='cms_get_token'),
+    url(r'^update_email/$', views.cms_update_email,name='cms_update_email'),
+    url(r'^update_profile/$', views.cms_update_profile,name='cms_update_profile'),
 ]

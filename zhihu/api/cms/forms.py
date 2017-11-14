@@ -31,3 +31,10 @@ class AddtagForm(forms.Form):
 
 class AddCategoryForm(forms.Form):
     categoryname = forms.CharField(max_length=20)
+
+class UpdateProfileForm(forms.Form):
+    username = forms.CharField(min_length=4, max_length=10,required=False)
+    avatar = forms.URLField(max_length=200, required=False)
+
+class UpdateEmailForm(forms.Form):
+    email = forms.EmailField(required=True)
