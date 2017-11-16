@@ -14,10 +14,34 @@ from qiniu import Auth
 
 
 
-@login_required
+# @login_required
 def cms_index(request):
     articleModel = ArticleModel.objects.all()
-    return render(request, 'cms_index.html', {'articleModel': articleModel})
+    # 获取文章所需总页数
+    sum = len(articleModel)
+    if sum % 5:
+        page = sum//5 + 1
+    else:
+        page = sum//5
+    # 获取当前页
+    c_page = int(request.GET.get('page',1))
+    # 创建页面
+    a_start = (c_page - 1) * 5
+    a_stop = c_page * 5
+    a_article = articleModel[a_start:a_stop]
+    # 跳转分页
+    if c_page % 5:
+        current_pages = c_page//5 +1
+    else:
+        current_pages = c_page//5
+    # 创建页码
+    p_start = (current_pages - 1) * 5 + 1
+    p_stop = current_pages * 5 + 1
+    p_page = range(p_start,min(page + 1,p_stop))
+    return render(request, 'cms_index.html', {'page': p_page,
+                                              'articleModel': a_article,
+                                              'add_page':p_start + 5,
+                                              'cut_page':p_start - 1})
 
 
 def cms_login(request):
@@ -193,3 +217,6 @@ def cms_update_profile(request):
 
 def cms_update_email(request):
     return 1
+
+
+

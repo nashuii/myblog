@@ -1,0 +1,115 @@
+.main-content{
+	position: absolute;
+	left: 5%;
+	top: 10%;
+}
+.article-col{
+	position: relative;
+
+}
+.article{
+	position: relative;
+	/*text-align: center;*/
+}
+.article-head{
+	position: relative;
+	height: 80px;
+	top: 10px;
+	text-align: center;
+}
+.article-thumbnail{
+	position: relative;
+	top: 20px;
+	text-align: center;
+	height:400px;
+	width: 90%;
+	left: 5%;
+	overflow: hidden;
+
+}
+.article-desc{
+	position: relative;
+	text-align: left;
+	height: 100px;
+	top: 30px;
+	width: 90%;
+	left: 5%;
+}
+.article-link{
+	position: relative;
+	height: 50px;
+	width: 90%;
+	left: 5%;
+	top: 30px;
+}
+.article-tag{
+	position: relative;
+	height: 60px;
+	width: 90%;
+	left: 5%;
+	top: 30px;
+}
+.extension{
+	position: relative;
+	width: 400px;
+}
+.category{
+	position: relative;
+	width: 90%;
+	/*height: 300px;*/
+	background: white;
+	/*top: 10px;*/
+}
+.category-title{
+	position: relative;
+	width: 80%;
+	height: 30px;
+	top: 15px;
+	left: 10%;
+}
+.category-line{
+	position: relative;
+	width: 80%;
+	height: 15px;
+	top: 5px;
+	left: 10%;
+}
+.category-context{
+	position: relative;
+	width: 80%;
+	height: 90%;
+	left: 10%;
+	font-size: 15px;
+}.tag{
+	position: relative;
+	width: 90%;
+	/*height: 300px;*/
+	background: white;
+	top: 10px;
+}
+.tag-title{
+	position: relative;
+	width: 80%;
+	height: 30px;
+	top: 15px;
+	left: 10%;
+}
+.tag-line{
+	position: relative;
+	width: 80%;
+	height: 15px;
+	top: 5px;
+	left: 10%;
+}
+.tag-context{
+	position: relative;
+	width: 80%;
+	height: 90%;
+	left: 10%;
+	font-size: 15px;
+}
+.index-page{
+    position: relative;
+    text-align: center;
+    width: 90%;
+}

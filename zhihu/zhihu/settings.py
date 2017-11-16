@@ -69,6 +69,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'api.common.contextprocessor.mycontextprocessor.get_cmsuser_avatar',
+                'api.common.contextprocessor.mycontextprocessor.get_category',
+                'api.common.contextprocessor.mycontextprocessor.get_tag',
             ],
         },
     },
