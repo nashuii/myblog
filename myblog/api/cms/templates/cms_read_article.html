@@ -1,0 +1,35 @@
+{% extends "cms_base.html" %}
+{% load static %}
+
+{% block baseheadblock %}
+    <link rel="stylesheet" href="{% static 'css/cms_index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cms_read_article.css' %}">
+{% endblock baseheadblock %}
+
+{% block titleblock %}主页{% endblock titleblock %}
+
+{% block bodyblock %}
+    {{ block.super }}
+<div class="content-wrap">
+    <div class="container">
+        <div class="row main-content">
+            <div class="col-md-8 article-col" style="width: 800px">
+                <div class="article" style="background: white">
+                    <div class="article-head">
+                        <h1>{{ article.title }}</h1>
+                        <p>{{ article.author }} 2017-11-16</p>
+                    </div>
+                    <div class="article-thumbnail">
+                        <img src="{{ article.thumbnail }}" alt="" width="700px" height="">
+                    </div>
+                    <div class="article-content">
+                        {{ article.content_html|safe }}
+                    </div>
+                </div>
+            </div>
+            {% include 'cms_extension.html' %}
+        </div>
+    </div>
+</div>
+
+{% endblock bodyblock %}
