@@ -126,13 +126,14 @@ $(function() {
 $(function() {
 	$('#submit-article-btn').click(function() {
 		// 获取元素
+		var uidElement = $('#uid-input');
 		var titleElement = $('#title-input');
 		var categoryElement = $('#category-select');
 		var descElement = $('#desc-input');
 		var thumbnailElement = $('#thumbnail-input');
 		var tagElements = $('.tag-checkbox');
-
 		// 获取数据
+		var uid = uidElement.val();
 		var title = titleElement.val();
 		var category = categoryElement.val();
 		var desc = descElement.val();
@@ -146,6 +147,7 @@ $(function() {
 		});
 		var content_html = editor.getValue();
 		var data = {
+			'uid': uid,
 			'title': title,
 			'category': category,
 			'desc': desc,
@@ -153,7 +155,6 @@ $(function() {
 			'tags': tags,
 			'content_html': content_html
 		};
-
 		// 通过ajax发布到服务器
 		myajax.post({
 			'url': '/cms/add_article/',
@@ -161,6 +162,7 @@ $(function() {
 			'success':function(result) {
 				if (result['code'] == 200) {
 					$('#submit-success-modal').modal('show');
+					uidElement.val('');
 					titleElement.val('');
 					descElement.val('');
 					thumbnailElement.val('');

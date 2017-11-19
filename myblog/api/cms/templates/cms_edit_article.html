@@ -26,13 +26,10 @@
 		<div class="container">
             <h1 style="color: white;">添加文章</h1>
 			<form action="" class="form">
-                <div class="form-group" hidden>
-                    <input type="text" id='uid-input' value="{{ article.uid }}">
-                </div>
 				<div class="form-group">
 					<div class="input-group">
 						<span class="input-group-addon" >标题</span>
-						<input type="text" class="form-control" placeholder="标题" id='title-input' value="{{ article.title }}">
+						<input type="text" class="form-control" placeholder="标题" id='title-input'>
 						<span class="input-group-addon btn btn-danger" id='submit-article-btn'>发布文章</span>
 					</div>
 				</div>
@@ -41,9 +38,6 @@
 						<span class="input-group-addon">分类</span>
 						<select name="" id="category-select" class="form-control">
 							{% for category in categorys %}
-                                {% if category.id == article.category_id %}
-								<option value="{{category.id}}" selected="selected">{{category.name}}</option>
-                                {% endif %}
 								<option value="{{category.id}}">{{category.name}}</option>
 							{% endfor %}
 						</select>
@@ -53,13 +47,13 @@
 				<div class="form-group">
 					<div class="input-group">
 						<span class="input-group-addon">描述</span>
-						<input type="text" class="form-control" placeholder="描述" id="desc-input" value="{{ article.desc }}">
+						<input type="text" class="form-control" placeholder="描述" id="desc-input">
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="input-group">
 						<span class="input-group-addon">图片</span>
-						<input type="text" class="form-control" placeholder="缩略图地址" id='thumbnail-input' value="{{ article.thumbnail }}">
+						<input type="text" class="form-control" placeholder="缩略图地址" id='thumbnail-input'>
 						<span class="input-group-addon btn btn-info" id='thumbnail-btn'>上传图片</span>
 					</div>
 				</div>
@@ -68,15 +62,9 @@
 						<span class="input-group-addon">标签</span>
 						<div class="form-control" id='tag-box'>
 							{% for tag in tags %}
-                                {% if tag in article_tags %}
 								<label for="" class="checkbox-inline">
-									<input type="checkbox" value="{{tag.id}}" class="tag-checkbox" checked="checked"> {{tag.name}}
+									<input type="checkbox" value="{{tag.id}}" class="tag-checkbox"> {{tag.name}}
 								</label>
-                                {% else %}
-                                <label for="" class="checkbox-inline">
-                                    <input type="checkbox" value="{{tag.id}}" class="tag-checkbox"> {{tag.name}}
-                                </label>
-                                {% endif %}
 							{%empty%}
 								<span>暂无标签</span>
 							{% endfor %}
@@ -85,7 +73,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<textarea id="simditor" placeholder="正文...">{{ article.content_html }}</textarea>
+					<textarea id="simditor" placeholder="正文..."></textarea>
 				</div>
 			</form>
 		</div>

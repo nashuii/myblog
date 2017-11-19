@@ -20,6 +20,7 @@ class Register(forms.Form):
     email = forms.EmailField(required = True)
 
 class AddarticleForm(forms.Form):
+    uid = forms.UUIDField(required=False)
     title = forms.CharField(max_length = 200)
     category = forms.IntegerField(required = True)
     desc = forms.CharField(max_length = 200, required = False)

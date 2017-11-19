@@ -8,7 +8,7 @@
                     <div class="category-context">
                         <p>
                         {% for category in extension_category %}
-                            <span>{{ category.name }}</span>
+                            <a href="{% url 'cms_index' %}?category_id={{ category.id }}">{{ category.name }}</a>
                         {% endfor %}
                         </p><br>
                     </div>
@@ -20,7 +20,7 @@
                     <div class="tag-context">
                         <p>
                         {% for tag in extension_tag %}
-                            {{ tag.name }}
+                            <a href="{% url 'cms_index' %}?tag_id={{ tag.id }}">{{ tag.name }}</a>
                         {% endfor %}
                         </p><br>
                     </div>

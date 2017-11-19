@@ -5,3 +5,10 @@
     top: 30px;
 
 }
+.article-tail{
+    position: relative;
+    width: 90%;
+    left: 5%;
+    top: 30px;
+    height: 100px;
+}

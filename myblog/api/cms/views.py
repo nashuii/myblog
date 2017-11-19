@@ -15,33 +15,51 @@ from qiniu import Auth
 
 
 # @login_required
-def cms_index(request):
-    articleModel = ArticleModel.objects.all()
+def cms_index(request, category_id=0, tag_id=0):
+    category_id = request.GET.get('category_id',0)
+    tag_id = request.GET.get('tag_id',0)
+    # c_url = request.GET.get('last')
+    if int(category_id):
+        articleModel = ArticleModel.objects.filter(category_id=category_id)
+    elif int(tag_id):
+        articleModel = []
+        for article in ArticleModel.objects.all():
+            if article.tags.filter(articlemodel__tags=tag_id):
+                articleModel.append(article)
+    else:
+        articleModel = ArticleModel.objects.all()
     # 获取文章所需总页数
     sum = len(articleModel)
-    if sum % 5:
-        page = sum//5 + 1
+    articles_perpage = 3
+    page_num = 3
+    if sum % articles_perpage:
+        page = sum//articles_perpage + 1
     else:
-        page = sum//5
+        page = max(1, sum//articles_perpage) # 如果文章数为零，则默认显示第一页
     # 获取当前页
-    c_page = int(request.GET.get('page',1))
-    # 创建页面
-    a_start = (c_page - 1) * 5
-    a_stop = c_page * 5
+    c_page = min(page, max(1, int(request.GET.get('page',1))))   # 限制当前的页码在1-page（文章总页码）
+    # 创建文章页面
+    a_start = (c_page - 1) * articles_perpage
+    a_stop = c_page * articles_perpage
+    # 文章切片
     a_article = articleModel[a_start:a_stop]
     # 跳转分页
-    if c_page % 5:
-        current_pages = c_page//5 +1
+    if c_page % page_num:
+        current_pages = c_page//page_num +1
     else:
-        current_pages = c_page//5
+        current_pages = c_page//page_num
     # 创建页码
-    p_start = (current_pages - 1) * 5 + 1
-    p_stop = current_pages * 5 + 1
-    p_page = range(p_start,min(page + 1,p_stop))
+    p_start = (current_pages - 1) * page_num + 1
+    p_stop = current_pages * page_num + 1
+    p_page = range( p_start,min(page + 1,p_stop))
     return render(request, 'cms_index.html', {'page': p_page,
                                               'articleModel': a_article,
-                                              'add_page':p_start + 5,
-                                              'cut_page':p_start - 1})
+                                              'add_page':p_start + page_num,
+                                              'cut_page':p_start - 1,
+                                              # 'current_url':c_url,
+                                              'category_id':category_id,
+                                              'tag_id':tag_id
+                                              })
 
 
 def cms_login(request):
@@ -97,36 +115,59 @@ def cms_add_article(request):
     tags = TagModel.objects.all()
     # print(categorys)
     if request.method == 'GET':
-        return render(request, 'cms_add_article.html', {'categorys': categorys, 'tags': tags})
+        article_uid = request.GET.get('article_uid',None)
+        articleModel = ArticleModel.objects.filter(uid=article_uid).first()
+        article_tags = articleModel.tags.all() if articleModel else []
+        return render(request, 'cms_add_article.html', {'categorys': categorys,
+                                                        'tags': tags,
+                                                        'article':articleModel,
+                                                        'article_tags':article_tags})
     else:
         form = AddarticleForm(request.POST)
         if form.is_valid():
+            uid = form.cleaned_data.get('uid',None) # 如果请求为修改文章，则uid存在
             title = form.cleaned_data.get('title', None)
             category = form.cleaned_data.get('category', None)
             desc = form.cleaned_data.get('desc', None)
             thumbnail = form.cleaned_data.get('thumbnail', None)
             content_html = form.cleaned_data.get('content_html', None)
-            tags = request.POST.getlist('tags', None)
+            tags = request.POST.getlist('tags[]', None)
+            print('ajax:', uid)
             user = request.user
 
             categoryModel = CategoryModel.objects.filter(id=category).first()
 
-            article = ArticleModel(
-                    title=title,
-                    category=categoryModel,
-                    desc=desc,
-                    thumbnail=thumbnail,
-                    content_html=content_html,
-                    author=user
-            )
+            # 获取article对象，如果存在，则归为修改请求，反之则是创建请求
+            article = ArticleModel.objects.filter(uid=uid).first()
+            print(article)
+            # 修改文章
+            if article:
+                article.title = title
+                article.category = categoryModel
+                article.desc = desc
+                article.thumbnail = thumbnail
+                article.content_html = content_html
+                article.tags.clear() # 清除原先的tags列表
+            # 创建文章
+            else:
+                article = ArticleModel(
+                        title=title,
+                        category=categoryModel,
+                        desc=desc,
+                        thumbnail=thumbnail,
+                        content_html=content_html,
+                        author=user
+                )
 
             article.save()
-
             for tag in tags:
                 tagModel = TagModel.objects.filter(id=tag).first()
-                ArticleModel.tags.add(tag)
+                print(tagModel)
+                article.tags.add(tagModel)
             return myjson.json_result()
         return myjson.json_params_error(message=form.errors.as_json())
+
+
 
 @login_required
 def cms_settings(request):
