@@ -5,20 +5,20 @@ from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, reverse
 from api.cms.forms import LoginForm, Register, AddCategoryForm, AddtagForm, AddarticleForm, UpdateEmailForm, \
-    UpdateProfileForm
+    UpdateProfileForm,DiscussForm,DiscussToDiscussForm
 from api.cms.spider import News
-from article.models import CategoryModel, TagModel, ArticleModel
+from article.models import CategoryModel, TagModel, ArticleModel, DiscussModel, DiscussToDiscussModel
 from api.cms.models import CmsUser
 from utils import myjson
 from qiniu import Auth
 
 
-
 # @login_required
 def cms_index(request, category_id=0, tag_id=0):
-    category_id = request.GET.get('category_id',0)
-    tag_id = request.GET.get('tag_id',0)
+    category_id = request.GET.get('category_id', 0)
+    tag_id = request.GET.get('tag_id', 0)
     # c_url = request.GET.get('last')
+    # print(request.user.username)
     if int(category_id):
         articleModel = ArticleModel.objects.filter(category_id=category_id)
     elif int(tag_id):
@@ -30,8 +30,8 @@ def cms_index(request, category_id=0, tag_id=0):
         articleModel = ArticleModel.objects.all()
     # 获取文章所需总页数
     sum = len(articleModel)
-    articles_perpage = 3
-    page_num = 3
+    articles_perpage = 5
+    page_num = 5
     if sum % articles_perpage:
         page = sum//articles_perpage + 1
     else:
@@ -115,13 +115,13 @@ def cms_add_article(request):
     tags = TagModel.objects.all()
     # print(categorys)
     if request.method == 'GET':
-        article_uid = request.GET.get('article_uid',None)
+        article_uid = request.GET.get('article_uid', None)
         articleModel = ArticleModel.objects.filter(uid=article_uid).first()
         article_tags = articleModel.tags.all() if articleModel else []
         return render(request, 'cms_add_article.html', {'categorys': categorys,
                                                         'tags': tags,
-                                                        'article':articleModel,
-                                                        'article_tags':article_tags})
+                                                        'article': articleModel,
+                                                        'article_tags': article_tags})
     else:
         form = AddarticleForm(request.POST)
         if form.is_valid():
@@ -260,7 +260,33 @@ def cms_update_email(request):
     return 1
 
 def cms_read_article(request):
-    book_uid = request.GET.get('book_uid',None)
-    article = ArticleModel.objects.filter(uid=book_uid).first()
-    return render(request,'cms_read_article.html',{'article':article})
+    article_uid = request.GET.get('article_uid',None)
+    article = ArticleModel.objects.filter(uid=article_uid).first()
+    discuss = DiscussModel.objects.filter(article=article).all()
+    if discuss:
+        auth = discuss.first().auth
+        avatar = CmsUser.objects.filter(user=auth).first().avatar
+    else:
+        auth = None
+        avatar = None
+    return render(request,'cms_read_article.html',{'article':article,
+                                                   'discuss':discuss,
+                                                   'avatar':avatar,
+                                                   'auth':auth})
 
+def cms_discuss(request):
+    form = DiscussForm(request.POST)
+    if form.is_valid():
+        auth = request.user
+        article_uid = form.cleaned_data.get('article_uid')
+        text = form.cleaned_data.get('text')
+        print(text,article_uid)
+        articleModel = ArticleModel.objects.filter(uid=article_uid).first()
+        print(articleModel)
+        cms_user = CmsUser.objects.filter(user=auth).first()
+
+        discuss = DiscussModel(auth=auth, article=articleModel, content=text)
+        discuss.save()
+
+        return myjson.json_result(data={'auth':auth.username,'avatar':cms_user.avatar})
+    return myjson.json_params_error(message=form.errors.as_json())

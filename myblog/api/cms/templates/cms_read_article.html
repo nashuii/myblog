@@ -3,10 +3,18 @@
 
 {% block baseheadblock %}
     <link rel="stylesheet" href="{% static 'css/cms_index.css' %}">
+    <link rel="stylesheet" href="{% static 'simditor/styles/simditor.css' %}">
     <link rel="stylesheet" href="{% static 'css/cms_read_article.css' %}">
+    <script src="{% static 'simditor/scripts/module.min.js' %}"></script>
+	<script src="{% static 'simditor/scripts/hotkeys.min.js' %}"></script>
+	<script src="{% static 'simditor/scripts/uploader.min.js' %}"></script>
+	<script src="{% static 'simditor/scripts/simditor.min.js' %}"></script>
+    <script src="{% static 'js/arttemplate.js' %}"></script>
+    <script src='{% static "js/cms_read_article.js" %}'></script>
+    {% include 'cms_discuss_template.html' %}
 {% endblock baseheadblock %}
 
-{% block titleblock %}主页{% endblock titleblock %}
+{% block titleblock %}{{ article.title }}{% endblock titleblock %}
 
 {% block bodyblock %}
     {{ block.super }}
@@ -27,6 +35,52 @@
                     </div>
                     <div class="article-tail"><br>
                         <hr></div>
+                </div>
+                <div class="discuss">
+                    <div class="discuss-head">
+                        <h3>评论</h3>
+                        <hr>
+                    </div>
+                    <div class="discuss-content" id="discuss-content">
+                    {% for dis in discuss %}
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object" src="{{ avatar }}" id="discuss_pickfiles" alt="...">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{ auth.username }}</h4>
+                                <div class="discuss-text">{{ dis.content|safe }}
+                                </div>
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img class="media-object" src="{% static 'images/default_avatar.jpg' %}" id="discuss_pickfiles" alt="...">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">Media heading</h4>
+                                    <div class="discuss-text">宫中府中，俱为一体，陟罚臧否，不宜异同。若
+                                        有作奸犯科及为忠善者，宜付有司论其刑赏，以昭陛下平明之理，不宜偏私
+                                        ，使内外异法也。
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                    <div class="discuss-input">
+                        <div class="input-title"><h4>写评论</h4></div>
+                        <div class="input-text">
+                            <textarea id="simditor" placeholder="请输入评论内容..."></textarea>
+                        </div>
+                        <div class="input-commit">
+                            <a class="btn btn-primary btn-large" id="commit-btn">提交</a>
+                        </div>
+                    </div>
+                    <div class="discuss-tail">
+                        <hr>
+                    </div>
                 </div>
             </div>
             {% include 'cms_extension.html' %}

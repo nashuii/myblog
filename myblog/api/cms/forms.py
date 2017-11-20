@@ -39,3 +39,10 @@ class UpdateProfileForm(forms.Form):
 
 class UpdateEmailForm(forms.Form):
     email = forms.EmailField(required=True)
+
+class DiscussForm(forms.Form):
+    text = forms.CharField()
+    article_uid = forms.CharField()
+
+class DiscussToDiscussForm(forms.Form):
+    text = forms.CharField()

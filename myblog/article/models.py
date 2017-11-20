@@ -18,3 +18,13 @@ class CategoryModel(models.Model):
 
 class TagModel(models.Model):
     name = models.CharField(max_length=20,unique=True)
+
+class DiscussModel(models.Model):
+    content = models.TextField()
+    article = models.ForeignKey(ArticleModel)
+    auth = models.ForeignKey(User)
+
+class DiscussToDiscussModel(models.Model):
+    content = models.TextField()
+    discuss = models.ForeignKey(DiscussModel)
+    auth = models.ForeignKey(User)

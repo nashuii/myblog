@@ -1,0 +1,16 @@
+<script id='cms_discuss_template' type='text/html'>
+    {% verbatim %}
+    <div class="media" id="discuss-content">
+        <div class="media-left">
+            <a href="#">
+                <img class="media-object" src="{{avatar}}" id="discuss_pickfiles" alt="...">
+            </a>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">{{auth}}</h4>
+            <div class="discuss-text">{{#text}}
+            </div>
+        </div>
+    </div>
+    {% endverbatim %}
+</script>

@@ -17,7 +17,7 @@
                 {% for article in articleModel %}
                 <div class="article" style="background: white">
                     <div class="article-head">
-                        <h1><a id="article-title" href="{% url 'cms_read_article' %}?book_uid={{ article.uid }}">{{ article.title }}</a></h1>
+                        <h1><a id="article-title" href="{% url 'cms_read_article' %}?article_uid={{ article.uid }}">{{ article.title }}</a></h1>
                         <p>{{ article.author }} 2017-11-16 <a href="{% url 'cms_add_article' %}?article_uid={{ article.uid }}"> 编辑</a></p>
                     </div>
                     <div class="article-thumbnail">

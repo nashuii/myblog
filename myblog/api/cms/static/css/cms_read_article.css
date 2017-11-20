@@ -12,3 +12,72 @@
     top: 30px;
     height: 100px;
 }
+.discuss{
+    position: relative;
+    /*height: 500px;*/
+    background: white;
+}
+.discuss-head{
+    position: relative;
+    width: 90%;
+    height: 30px;
+    left: 5%;
+    top: 15px;
+
+}
+.discuss-tail{
+    position: relative;
+    width: 90%;
+    left: 5%;
+    top: 30px;
+    height: 50px;
+}
+.discuss-content{
+    position: relative;
+}
+.media{
+    position: relative;
+    width: 90%;
+    left: 5%;
+    top: 30px;
+}
+#discuss_pickfiles{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	position: relative;
+}
+.media-left{
+    position: relative;
+	width: 40px;
+	height: 100px;
+	border-radius: 50%;
+    top: 5px;
+}
+.media-body{
+    position: relative;
+    top: 5px;
+}
+.discuss-input{
+    position: relative;
+    width: 90%;
+    left: 5%;
+    top: 30px;
+    /*height: 100px;*/
+}
+.input-title{
+    position: relative;
+}
+.input-text{
+    position: relative;
+    /*height: 200px;*/
+    top: 5px;
+}
+#simditor-body{
+    height: 200px;
+}
+.input-commit{
+    position: relative;
+    height: 50px;
+    top: 20px;
+}

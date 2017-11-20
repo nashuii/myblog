@@ -201,7 +201,7 @@
 }
 .simditor .simditor-body {
   padding: 22px 15px 40px;
-  min-height: 300px;
+  min-height: 200px;             /* 最小高度，2017/11/20修改 */
   outline: none;
   cursor: text;
   position: relative;

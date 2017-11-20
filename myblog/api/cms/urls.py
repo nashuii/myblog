@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^update_email/$', views.cms_update_email,name='cms_update_email'),
     url(r'^update_profile/$', views.cms_update_profile,name='cms_update_profile'),
     url(r'^read_article/$', views.cms_read_article,name='cms_read_article'),
+    url(r'^discuss/$', views.cms_discuss,name='cms_discuss'),
 ]
