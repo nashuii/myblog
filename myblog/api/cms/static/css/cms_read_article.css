@@ -25,21 +25,34 @@
     top: 15px;
 
 }
+#discuss-content1{
+    position: relative;
+    width: 90%;
+    left: 5%;
+    top: 40px;
+}
+.discuss-content3{
+    position: relative;
+    width: 100%;
+}
+.discuss-content2{
+    position: relative;
+    width: 100%;
+}
+.article-content2{
+    position: relative;
+    top: 10px;
+}
+.show-btn{
+    position: relative;
+    height: 35px;
+}
 .discuss-tail{
     position: relative;
     width: 90%;
     left: 5%;
     top: 30px;
     height: 50px;
-}
-.discuss-content{
-    position: relative;
-}
-.media{
-    position: relative;
-    width: 90%;
-    left: 5%;
-    top: 30px;
 }
 #discuss_pickfiles{
 	width: 40px;
@@ -50,7 +63,7 @@
 .media-left{
     position: relative;
 	width: 40px;
-	height: 100px;
+	height: 50px;
 	border-radius: 50%;
     top: 5px;
 }
@@ -64,6 +77,12 @@
     left: 5%;
     top: 30px;
     /*height: 100px;*/
+}
+.distodis-input{
+    position: relative;
+    width: 100%;
+    height: 60px;
+    top: 20px;
 }
 .input-title{
     position: relative;

@@ -12,6 +12,7 @@
     <script src="{% static 'js/arttemplate.js' %}"></script>
     <script src='{% static "js/cms_read_article.js" %}'></script>
     {% include 'cms_discuss_template.html' %}
+    {% include 'cms_distodis_template.html' %}
 {% endblock baseheadblock %}
 
 {% block titleblock %}{{ article.title }}{% endblock titleblock %}
@@ -41,34 +42,57 @@
                         <h3>评论</h3>
                         <hr>
                     </div>
-                    <div class="discuss-content" id="discuss-content">
-                    {% for dis in discuss %}
-                        <div class="media">
+                    <div class="discuss-content1" id="discuss-content1">
+                        {% for dis in discuss %}
+                        <div class="discuss-content">
                             <div class="media-left">
                                 <a href="#">
-                                    <img class="media-object" src="{{ avatar }}" id="discuss_pickfiles" alt="...">
+                                    <img class="media-object" src="{{ dis.avatar }}" id="discuss_pickfiles" alt="...">
                                 </a>
                             </div>
                             <div class="media-body">
-                                <h4 class="media-heading">{{ auth.username }}</h4>
+                                <h4 class="media-heading">{{ dis.auth.username }}</h4>
                                 <div class="discuss-text">{{ dis.content|safe }}
                                 </div>
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object" src="{% static 'images/default_avatar.jpg' %}" id="discuss_pickfiles" alt="...">
-                                    </a>
+                                <div class="show-btn">
+                                    <a class="btn btn-default btn-sm show-discuss" id="{{ dis.id }}">查看评论</a>
                                 </div>
-                                <div class="media-body">
-                                    <h4 class="media-heading">Media heading</h4>
-                                    <div class="discuss-text">宫中府中，俱为一体，陟罚臧否，不宜异同。若
-                                        有作奸犯科及为忠善者，宜付有司论其刑赏，以昭陛下平明之理，不宜偏私
-                                        ，使内外异法也。
+                                <div class="discuss-content2" id="distodis-{{ dis.id }}" hidden>
+                                    {% for dis2 in dis.distodis %}
+                                    <div class="discuss-content3" id="dis-{{ dis.id }}">
+                                        <div class="discuss-content">
+                                            <div class="media-left">
+                                                <a href="#">
+                                                    <img class="media-object" src="{{ dis2.avatar }}" id="discuss_pickfiles" alt="...">
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="media-heading">{{ dis2.auth.username }}</h4>
+                                                <div class="discuss-text">
+                                                    {{ dis2.content|safe }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    <div class="distodis-input">
+                                        <form action="" class="form">
+                                            <div class="form-group ">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" >回复</span>
+                                                    <input type="text" class="form-control" placeholder="输入回复..." id="input-{{ dis.id }}">
+                                                    <span class="input-group-addon btn btn-danger distodis-btn" id='{{ dis.id }}'>发送</span>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    {% endfor %}
+                        <hr>
+                        {% endfor %}
                     </div>
+
                     <div class="discuss-input">
                         <div class="input-title"><h4>写评论</h4></div>
                         <div class="input-text">

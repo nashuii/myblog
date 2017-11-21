@@ -46,3 +46,4 @@ class DiscussForm(forms.Form):
 
 class DiscussToDiscussForm(forms.Form):
     text = forms.CharField()
+    discuss_id = forms.CharField()

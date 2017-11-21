@@ -262,31 +262,68 @@ def cms_update_email(request):
 def cms_read_article(request):
     article_uid = request.GET.get('article_uid',None)
     article = ArticleModel.objects.filter(uid=article_uid).first()
-    discuss = DiscussModel.objects.filter(article=article).all()
-    if discuss:
-        auth = discuss.first().auth
-        avatar = CmsUser.objects.filter(user=auth).first().avatar
-    else:
-        auth = None
-        avatar = None
+    discussModel = DiscussModel.objects.filter(article=article).all()
+    discuss = []
+    if discussModel:
+        for dis in discussModel:
+            auth = dis.auth
+            avatar = CmsUser.objects.filter(user=auth).first().avatar
+            id = dis.id
+            content = dis.content
+            distodisModel = DiscussToDiscussModel.objects.filter(discuss=dis).all()
+            distodis = []
+            if distodisModel:
+                for dis2 in distodisModel:
+                    auth2 = dis2.auth
+                    avatar2 = CmsUser.objects.filter(user=auth2).first().avatar
+                    content2 = dis2.content
+                    distodis.append({
+                        'auth': auth2,
+                        'avatar': avatar2,
+                        'content': content2
+                    })
+            discuss.append({
+                'id': id,
+                'auth': auth,
+                'avatar': avatar,
+                'content': content,
+                'distodis': distodis
+            })
     return render(request,'cms_read_article.html',{'article':article,
-                                                   'discuss':discuss,
-                                                   'avatar':avatar,
-                                                   'auth':auth})
+                                                   'discuss':discuss})
 
+@login_required
 def cms_discuss(request):
     form = DiscussForm(request.POST)
     if form.is_valid():
         auth = request.user
         article_uid = form.cleaned_data.get('article_uid')
         text = form.cleaned_data.get('text')
-        print(text,article_uid)
+        # print(text,article_uid)
         articleModel = ArticleModel.objects.filter(uid=article_uid).first()
-        print(articleModel)
+        # print(articleModel)
         cms_user = CmsUser.objects.filter(user=auth).first()
 
         discuss = DiscussModel(auth=auth, article=articleModel, content=text)
         discuss.save()
+
+        return myjson.json_result(data={'auth':auth.username,'avatar':cms_user.avatar})
+    return myjson.json_params_error(message=form.errors.as_json())
+
+@login_required
+def cms_distodis(request):
+    form = DiscussToDiscussForm(request.POST)
+    if form.is_valid():
+        auth = request.user
+        discuss_id = form.cleaned_data.get('discuss_id')
+        text = form.cleaned_data.get('text')
+        print(discuss_id)
+        discussModel = DiscussModel.objects.filter(id=discuss_id).first()
+
+        cms_user = CmsUser.objects.filter(user=auth).first()
+
+        distodis = DiscussToDiscussModel(auth=auth, discuss=discussModel, content=text)
+        distodis.save()
 
         return myjson.json_result(data={'auth':auth.username,'avatar':cms_user.avatar})
     return myjson.json_params_error(message=form.errors.as_json())

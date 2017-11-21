@@ -42,3 +42,45 @@ $(function(){
         });
     });
 });
+
+
+$(function(){
+    $('.distodis-btn').click(function(){
+        var input_id = '#input-' + this.id;
+        var textElement = $(input_id);
+        var text = textElement.val();
+        var discuss_id = this.id;
+        console.log(textElement);
+        var data = {
+            'text':text,
+            'discuss_id':discuss_id
+        };
+        myajax.post({
+            'url':'/cms/distodis/',
+            'data':data,
+            'success':function(result){
+                if(result['code'] == 200){
+                    var data = result['data'];
+                    var dis_id = '#dis-' + discuss_id;
+                    var dis_tp = template('cms_distodis_template',{'avatar':data['avatar'],'auth':data['auth'],'text':text});
+                    $(dis_id).append(dis_tp);
+                }else{
+                    console.log(result['message']);
+                }
+            },
+            'error':function(error){
+                console.log(error);
+            }
+        });
+    });
+});
+
+
+$(function(){
+    $('a.show-discuss').click(function(){
+        var dis_id = '#distodis-' + this.id;
+        //console.log(dis_id);
+        var distodis = $(dis_id);
+        distodis.toggle();
+    });
+});
