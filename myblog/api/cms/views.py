@@ -99,7 +99,10 @@ def cms_register(request):
             password = form.cleaned_data.get('password', None)
             email = form.cleaned_data.get('email', None)
             User.objects.create_user(username=username, password=password, email=email)
-            return redirect(reverse('cms_login.html'))
+            user = User.objects.filter(username=username).first()
+            cmsuser = CmsUser(user=user, avatar='/static/images/default_avatar.jpg')
+            cmsuser.save()
+            return redirect(reverse('cms_login'))
         else:
             return render(request, 'cms_register.html', {'prompt': '注册失败', 'error': form.errors})
 
@@ -242,7 +245,7 @@ def cms_update_profile(request):
         avatar = form.cleaned_data.get('avatar', None)
         print(avatar)
         print(username)
-        user = User.objects.all().first()
+        user = User.objects.filter(username=request.user.username).first()
         user.username = username
         user.save()
 

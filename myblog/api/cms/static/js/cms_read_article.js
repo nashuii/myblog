@@ -31,7 +31,8 @@ $(function(){
                 if(result['code'] == 200){
                     var data = result['data'];
                     var dis_tp = template('cms_discuss_template',{'avatar':data['avatar'],'auth':data['auth'],'text':text});
-                    $('#discuss-content').append(dis_tp);
+                    $('#discuss-content1').append(dis_tp);
+                    editor.setValue('');
                 }else{
                     console.log(result['message']);
                 }
@@ -64,6 +65,7 @@ $(function(){
                     var dis_id = '#dis-' + discuss_id;
                     var dis_tp = template('cms_distodis_template',{'avatar':data['avatar'],'auth':data['auth'],'text':text});
                     $(dis_id).append(dis_tp);
+                    textElement.val('')
                 }else{
                     console.log(result['message']);
                 }
